@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": true,
+    "target": "ESNext",
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "esModuleInterop": true, // need to be deleted later
+    // "lib": [
+    //   "ES7"
+    // ]
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
