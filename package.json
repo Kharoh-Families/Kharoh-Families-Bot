@@ -1,0 +1,29 @@
+{
+  "name": "discord",
+  "version": "0.0.0",
+  "description": "The official discord bot code for the Kharoh Families game and discord server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kharoh-Families/Le-Bot-Discord.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "kharoh",
+    "families"
+  ],
+  "author": "Kharoh",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/Kharoh-Families/Le-Bot-Discord/issues"
+  },
+  "homepage": "https://github.com/Kharoh-Families/Le-Bot-Discord#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "socket.io-client": "^4.0.1"
+  }
+}
