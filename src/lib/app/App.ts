@@ -1,5 +1,7 @@
 import Discord from 'discord.js'
 import socketIOClient from 'socket.io-client'
+import fs from 'fs'
+import assets from '../../assets/assets'
 
 /**
  * The App class used to run the discord bot
@@ -12,6 +14,19 @@ export default class App {
   /* Events that the discord client will receive from discord while connected */
   public discordEvents: any = {}
 
+  /**
+   * Load the global variables in the global node object
+   */
+  public loadGlobals() {
+    console.log('\x1b[36m' + `discord: loading global variables` + '\x1b[0m')
+
+    global.client = undefined
+    global.server = undefined
+    global.assets = assets
+    global.commands = {}
+
+    console.log('\x1b[36m' + `discord: loaded global variables` + '\x1b[0m')
+  }
 
   /**
    * Create the discord client and store it in global.client
@@ -67,27 +82,75 @@ export default class App {
    * Load the events that the server can trigger through the socket
    */
   public loadServerEvents() {
-    // TODO
-  }
+    console.log('\x1b[35m' + `server: loading server events` + '\x1b[0m')
 
-  /**
-   * Listen to server events
-   */
-  public listenToServerEvents() {
-    // TODO
+    fs.readdirSync('./src/lib/events/server')
+      .forEach(file => {
+        const eventName = file.split('.')[0].split('_').reverse()[0]
+        const event = new global.assets.Event(eventName, require(`../events/server/${file}`).default)
+        this.serverEvents[eventName] = event
+
+        console.log(`Loaded server ${file}`)
+        delete require.cache[require.resolve(`../events/server/${file}`)]
+      })
+
+    console.log('\x1b[35m' + `server: loaded server events` + '\x1b[0m')
   }
 
   /**
    * Load the events that the discord client can trigger while connected
    */
   public loadDiscordEvents() {
-    // TODO
+    console.log('\x1b[36m' + `discord: loading discord events` + '\x1b[0m')
+
+    fs.readdirSync('./src/lib/events/discord')
+      .forEach(file => {
+        const eventName = file.split('.')[0].split('_').reverse()[0]
+        const event = new global.assets.Event(eventName, require(`../events/discord/${file}`).default)
+        this.discordEvents[eventName] = event
+
+        console.log(`Loaded discord ${file}`)
+        delete require.cache[require.resolve(`../events/discord/${file}`)]
+      })
+
+    console.log('\x1b[36m' + `discord: loaded discord events` + '\x1b[0m')
+  }
+
+  public loadCommands() {
+    console.log('\x1b[36m' + `discord: loading commands` + '\x1b[0m')
+
+    fs.readdirSync('./src/lib/events/commands')
+      .forEach(file => {
+        const commandName = file.split('.')[0].split('_').reverse()[0]
+        const command = new global.assets.Command(require(`../events/commands/${file}`).default)
+        global.commands[commandName] = command
+
+        console.log(`Loaded command ${file}`)
+        delete require.cache[require.resolve(`../events/commands/${file}`)]
+      })
+
+    console.log('\x1b[36m' + `discord: loaded commands` + '\x1b[0m')
+  }
+
+  /**
+   * Listen to server events
+   */
+  public listenToServerEvents() {
+    /* Bind the server events to the socket */
+    for (const eventName in this.serverEvents) {
+      const event = this.serverEvents[eventName]
+      global.server.on(eventName, event.run.bind(event))
+    }
   }
 
   /**
    * Listen to discord client events
    */
   public listenToDiscordEvents() {
-    // TODO
+    /* Bind the discord events to the socket */
+    for (const eventName in this.discordEvents) {
+      const event = this.discordEvents[eventName]
+      global.client.on(eventName, event.run.bind(event))
+    }
   }
 }
