@@ -9,7 +9,7 @@ export default
 
     exec: (message: Message, ...args: any[]) => {
       const commandName = args[0]
-      if (!global.commands[commandName]) return message.reply("La commande que vous avez passé en argument n\'existe pas, vous pouvez retrouver plus d'informations avec !help .")
+      if (!global.commands[commandName]) throw new Error("La commande que vous avez passé en argument n\'existe pas, vous pouvez retrouver plus d'informations avec !help .")
       message.reply(global.commands[commandName].template)
     }
   }

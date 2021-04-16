@@ -16,7 +16,13 @@ class Command {
   run(message: Message, ...args: any[]): void {
     try {
       this.exec(message, ...args)
-    } catch {
+      message.react('🧼')
+    } catch (e) {
+      message.react('🤦‍♂️')
+      if (e.message) {
+        message.reply(e.message)
+        return
+      }
       message.reply("Il y a eu un problème lors de l'exécution de cette commande, assurez-vous d'avoir bien ordonné les arguments. Pour plus d'informations : !help " + this.name + " .")
     }
   }
