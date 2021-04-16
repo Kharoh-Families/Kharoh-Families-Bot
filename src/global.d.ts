@@ -1,6 +1,7 @@
 import { Client } from "discord.js";
 import Command from "./lib/classes/Command/Command";
 import Event from "./lib/classes/Event/Event";
+import ServerRequest from "./lib/classes/ServerRequest/ServerRequest";
 
 declare global {
   namespace NodeJS {
@@ -16,4 +17,5 @@ declare global {
 export interface Assets {
   Event: typeof Event
   Command: typeof Command
+  ServerRequest: typeof ServerRequest
 }
