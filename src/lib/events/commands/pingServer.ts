@@ -3,8 +3,10 @@ import { Message } from "discord.js";
 export default
 
   {
-    name: 'ping serveur',
+    name: 'Ping serveur',
     desc: "Permet de vérifier la latence du serveur du jeu.",
+    aliases: ['ps'],
+    permissions: ['administrator', 'moderator'],
     template: "!pingServer /",
 
     exec: (message: Message, ...args: any[]) => {
