@@ -122,7 +122,7 @@ export default class App {
     fs.readdirSync('./src/lib/events/commands')
       .forEach(file => {
         const commandName = file.split('.')[0].split('_').reverse()[0]
-        const command = new global.assets.Command(require(`../events/commands/${file}`).default)
+        const command = require(`../events/commands/${file}`).default
         global.commands[commandName] = command
 
         console.log(`Loaded command ${file}`)

@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
+import Command from "../../classes/Command/Command";
 
-export default
-
+export default new Command(
   {
     name: 'Ping',
     desc: "La fameuse commande originelle du ping pong (normalement c'est pour connaître la latence et la vitesse de réponse du bot) (le bot répondra n'importe quoi).",
@@ -25,3 +25,4 @@ export default
       message.reply(randomReply)
     }
   }
+)
