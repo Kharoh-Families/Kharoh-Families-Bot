@@ -15,7 +15,7 @@ class ServerRequest {
 
   public sendRequest() {
     const responseToken = ServerRequest.generateRandomResponseToken()
-    global.server.emit(this.name, responseToken)
+    global.server.emit(this.name, responseToken, this.params)
 
     return new Promise((resolve, reject) => {
       /* If the server sends the response */
