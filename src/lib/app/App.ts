@@ -59,7 +59,7 @@ export default class App {
     console.log('\x1b[35m' + `server: connecting to the server` + '\x1b[0m')
 
     const token = process.env.SERVER_KEY
-    global.server = socketIOClient('http://127.0.0.1:4001', {
+    global.server = socketIOClient('http://localhost:3001', {
       query: { token },
     })
 
