@@ -8,6 +8,8 @@ export default function playerChoseFamily(params: PlayerChoseFamilyParams) {
   /* Retrieve the member object */
   const member = global.assets.config.mainGuild.members.cache.get(params.playerID)
 
+  if (!member) return
+
   /* Remove all the other families roles */
   const rolesToRemove = Object.values(global.assets.config.familiesID)
   rolesToRemove.splice(Object.keys(global.assets.config.familiesID).indexOf(params.family), 1)
