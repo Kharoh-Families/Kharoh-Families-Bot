@@ -22,6 +22,15 @@ export default class Config {
     green: '829309423440625684',
   }
 
+  public textChannelID: { [key: string]: string } = {
+    adminShell: '832629971708674069',
+
+    pink: '829309103201189919',
+    blue: '829309946411614218',
+    yellow: '829310137613025350',
+    green: '829310268861186098',
+  }
+
   public mainGuildID: string = '829303272061009959'
 
   get mainGuild(): Guild {

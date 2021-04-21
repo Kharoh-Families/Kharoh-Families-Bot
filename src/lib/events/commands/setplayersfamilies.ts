@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
@@ -33,6 +33,10 @@ export default new Command({
 
             /* Add the current family role */
             member.roles.add(global.assets.config.familiesID[family])
+
+            /* Send the welcoming message to the right channel */
+            const familyChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID[family]) as TextChannel
+            familyChannel.send(`Bienvenue à ${member.user} qui vient de rejoindre la famille !`)
 
             /* Send as a response a list of all changed players */
             if (Object.values(playersFamiliesUpdates).length)
