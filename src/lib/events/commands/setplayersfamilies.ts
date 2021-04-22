@@ -18,18 +18,25 @@ export default new Command({
       new global.assets.ServerRequest({ name: 'getFamilyInfo', params: { familyName: family, path: 'players.list' }, maxDelay: 10000 })
         .sendRequest()
         .then(([familyPlayersList]) => {
+          console.log(familyPlayersList)
+
           for (const playerID of familyPlayersList) {
             /* Retrieve the member object */
             const member = global.assets.config.mainGuild.members.cache.get(playerID)
 
-            /* Add the player to the update list if he wasn't in the family yet */
-            if (!member.roles.cache.has(global.assets.config.familiesID[family]))
-              playersFamiliesUpdates[member.user.tag] = family
+            /* If the member does not exist skip this loop */
+            if (!member) continue
 
             /* Remove all the other families roles */
             const rolesToRemove = Object.values(global.assets.config.familiesID)
             rolesToRemove.splice(Object.keys(global.assets.config.familiesID).indexOf(family), 1)
             member.roles.remove(rolesToRemove)
+
+            /* If the player is already in the family, skip this loop */
+            if (member.roles.cache.has(global.assets.config.familiesID[family])) continue
+
+            /* Add the player to the update list if he wasn't in the family yet */
+            playersFamiliesUpdates[member.user.tag] = family
 
             /* Add the current family role */
             member.roles.add(global.assets.config.familiesID[family])
@@ -37,11 +44,11 @@ export default new Command({
             /* Send the welcoming message to the right channel */
             const familyChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID[family]) as TextChannel
             familyChannel.send(`Bienvenue à ${member.user} qui vient de rejoindre la famille !`)
-
-            /* Send as a response a list of all changed players */
-            if (Object.values(playersFamiliesUpdates).length)
-              message.reply(Object.entries(playersFamiliesUpdates).map(entry => entry.join(' => ')).join('\n'))
           }
+
+          /* Send as a response a list of all changed players */
+          if (Object.values(playersFamiliesUpdates).length)
+            message.reply(Object.entries(playersFamiliesUpdates).map(entry => entry.join(' => ')).join('\n'))
         })
         .catch(() => console.log('t'))
     }
