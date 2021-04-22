@@ -4,9 +4,9 @@ import { TextChannel } from "discord.js"
  * When a player joins a family, add to it the role of the given family and welcome it in the family channel
  * @param params - The params of the event
  */
-export default function playerChoseFamily(params: PlayerChoseFamilyParams) {
+export default async function playerChoseFamily(params: PlayerChoseFamilyParams) {
   /* Retrieve the member object */
-  const member = global.assets.config.mainGuild.members.cache.get(params.playerID)
+  const member = await global.assets.config.mainGuild.members.fetch(params.playerID)
 
   if (!member) return
 

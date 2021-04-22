@@ -17,12 +17,10 @@ export default new Command({
       /* Request the players list from the server */
       new global.assets.ServerRequest({ name: 'getFamilyInfo', params: { familyName: family, path: 'players.list' }, maxDelay: 10000 })
         .sendRequest()
-        .then(([familyPlayersList]) => {
-          console.log(familyPlayersList)
-
+        .then(async ([familyPlayersList]) => {
           for (const playerID of familyPlayersList) {
             /* Retrieve the member object */
-            const member = global.assets.config.mainGuild.members.cache.get(playerID)
+            const member = await global.assets.config.mainGuild.members.fetch(playerID)
 
             /* If the member does not exist skip this loop */
             if (!member) continue
