@@ -3,7 +3,7 @@ import Command from "../../classes/Command/Command";
 
 export default new Command(
   {
-    name: 'Joke',
+    name: 'Blague',
     desc: "Une blague pour se mettre de bonne humeur ! (Ou pas, d'ailleurs...)",
     aliases: ['blague'],
     permissions: ['everyone'],
