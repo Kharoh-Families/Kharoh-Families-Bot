@@ -19,7 +19,7 @@ export default new Command({
 
     const response = request.sendRequest()
     response
-      .then((responseData) => message.reply("Les informations demandées sont les suivantes :\n```json\n" + JSON.stringify(responseData, null, 4) + "\n```"))
+      .then((responseData) => message.reply("Les informations demandées sont les suivantes :\n```json\n" + JSON.stringify(responseData, null, 2) + "\n```"))
       .catch(() => message.reply('Quelque chose de mal est arrivé au serveur... (pas de réponse).'))
   }
 })
