@@ -19,7 +19,20 @@ export default new Command({
 
     const response = request.sendRequest()
     response
-      .then((responseData) => message.reply(JSON.stringify(responseData)))
+      .then((responseData) => {
+        const stringData = JSON.stringify(responseData, null, 2)
+        message.reply("Les informations demandées sont les suivantes :")
+        let iterator = 0
+        const iteratorMax = stringData.length/1000
+        let lastLineJump = 0
+        while (iterator < iteratorMax) {
+          const gap = (iterator+1)*1000
+          const lineJump = stringData.substr(gap, gap+60).indexOf("\n") + gap
+          message.reply("```json\n" + stringData.substr(lastLineJump, lineJump) + "\n```")
+          lastLineJump = lineJump
+          iterator++
+        }
+      })
       .catch(() => message.reply('Quelque chose de mal est arrivé au serveur... (pas de réponse).'))
   }
 })
