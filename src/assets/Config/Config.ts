@@ -9,6 +9,7 @@ export default class Config {
     administrator: '829307162692943893',
     manager: '829815246784692234',
     moderator: '829307796625162290',
+    player: '835947414799122443',
     everyone: '829303272061009959',
   }
 
