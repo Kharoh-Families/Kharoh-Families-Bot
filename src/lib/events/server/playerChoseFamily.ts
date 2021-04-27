@@ -18,6 +18,9 @@ export default async function playerChoseFamily(params: PlayerChoseFamilyParams)
   /* Add the current family role */
   member.roles.add(global.assets.config.familiesID[params.family])
 
+  /* Add the player role */
+  member.roles.add(global.assets.config.permissionsID['player'])
+
   /* Send the welcoming message to the right channel */
   const familyChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID[params.family]) as TextChannel
   familyChannel.send(`Bienvenue à ${member.user} qui vient de rejoindre la famille !`)
