@@ -2,6 +2,7 @@ import { Client } from "discord.js";
 import Config from "./assets/Config/Config";
 import Command from "./lib/classes/Command/Command";
 import Event from "./lib/classes/Event/Event";
+import Formatter from "./lib/classes/Formatter/Formatter";
 import ServerRequest from "./lib/classes/ServerRequest/ServerRequest";
 import Utils from "./lib/classes/Utils/Utils";
 
@@ -21,6 +22,7 @@ export interface Assets {
   Command: typeof Command
   ServerRequest: typeof ServerRequest
   Utils: typeof Utils
+  Formatter: typeof Formatter
 
   config: Config
 }

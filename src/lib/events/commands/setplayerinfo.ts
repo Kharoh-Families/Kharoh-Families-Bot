@@ -8,10 +8,10 @@ export default new Command({
   permissions: ['administrator'],
   template: "!setplayerinfo PLAYER_ID PATH ...ARGS",
 
-  exec: (message: Message, ...args: any[]) => {
+  exec: (message: Message, ...args: string[]) => {
     const playerID = args[0]
     const path = args[1]
-    const serverArgs = args.slice(2)
+    const serverArgs = global.assets.Formatter.formatArgs(args.slice(2)) // need to formatArgs
     if (!playerID || !path) throw new Error("Arguments invalides, !help pour plus d'informations.")
 
     const params = { playerID, path, args: serverArgs }
