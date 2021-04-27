@@ -2,20 +2,21 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Obtenir l\'information d\'un joueur',
-  desc: "Permet d'obtenir une information spécifique sur un joueur dans les bases de données du serveur.",
-  aliases: ['gpi'],
-  permissions: ['administrator', 'moderator'],
-  template: "!getplayerinfo PLAYER_ID PATH",
+  name: 'Changer l\'information d\'un joueur',
+  desc: "Permet d'accéder aux méthodes des classes d'un joueur et de le modifier.",
+  aliases: ['spi'],
+  permissions: ['administrator'],
+  template: "!setplayerinfo PLAYER_ID PATH ...ARGS",
 
   exec: (message: Message, ...args: any[]) => {
     const playerID = args[0]
     const path = args[1]
+    const serverArgs = args.slice(2)
     if (!playerID || !path) throw new Error("Arguments invalides, !help pour plus d'informations.")
 
-    const params = { playerID, path }
+    const params = { playerID, path, args: serverArgs }
 
-    const request = new global.assets.ServerRequest({ name: 'getPlayerInfo', params, maxDelay: 10000 })
+    const request = new global.assets.ServerRequest({ name: 'setPlayerInfo', params, maxDelay: 10000 })
 
     const response = request.sendRequest()
     response
