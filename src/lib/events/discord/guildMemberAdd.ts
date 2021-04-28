@@ -6,7 +6,7 @@ export default function guildMemberAdd(member: GuildMember) {
 
   const response = request.sendRequest()
   response
-    .then((familyName: string) => {
+    .then(async (familyName: string) => {
       if (!familyName) return
 
       /* Remove all the other families roles */
@@ -18,7 +18,8 @@ export default function guildMemberAdd(member: GuildMember) {
       member.roles.add(global.assets.config.familiesID[familyName])
 
       /* Send the welcoming message to the right channel */
-      const familyChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID[familyName]) as TextChannel
+      const mainGuild = await global.assets.config.mainGuild()
+      const familyChannel = mainGuild.channels.cache.get(global.assets.config.textChannelID[familyName]) as TextChannel
       familyChannel.send(`Bienvenue à ${member.user} qui vient de rejoindre la famille !`)
     })
     .catch()

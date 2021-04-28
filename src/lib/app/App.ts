@@ -43,13 +43,11 @@ export default class App {
   /**
    * Log the discord client in using the token
    */
-  public loginDiscordClient() {
+  public async loginDiscordClient() {
     console.log("\x1b[36m" + `discord: logging in the client` + '\x1b[0m')
 
     const token = process.env.TOKEN
-    global.client.login(token)
-
-    console.log("\x1b[36m" + `discord: client logged in` + '\x1b[0m')
+    return await global.client.login(token)
   }
 
   /**
@@ -161,9 +159,9 @@ export default class App {
     console.log('\x1b[36m' + 'discord: presence update and server ping cycle running')
   }
 
-  private refreshInformations() {
+  private async refreshInformations() {
     const params = { logIDs: false }
-    const logPingsChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID['logsPings']) as Discord.TextChannel
+    const logPingsChannel = await global.client.channels.fetch(global.assets.config.textChannelID['logsPings']) as Discord.TextChannel
 
     const pingRequest = new global.assets.ServerRequest({ name: 'pingServer', params: null, maxDelay: 10000 })
     const pingResponse = pingRequest.sendRequest()
@@ -174,18 +172,18 @@ export default class App {
     pingResponse
 
       .then(() => {
-        ping = (Date.now() - currentTimestamp) + 'ms'
+        ping = (Date.now() - currentTimestamp)
         global.client.user.setStatus('online')
 
         const playersRequest = new global.assets.ServerRequest({ name: 'getConnectedPlayers', params, maxDelay: 10000 })
         const playersResponse = playersRequest.sendRequest()
-    
+
         playersResponse
 
           .then((responseData: any) => {
             const [{ playersList }] = responseData
-            logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + playersList.lenght + ' joueurs.')
-            global.client.user.setActivity('les ' + playersList.lenght + ' joueurs connectés !', { type: 'WATCHING' });
+            logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + playersList.length + ' joueurs.')
+            global.client.user.setActivity('les ' + playersList.length + ' joueurs connectés !', { type: 'WATCHING' });
           })
 
           .catch(() => {

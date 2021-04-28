@@ -30,6 +30,10 @@ app.listenToDiscordEvents()
 
 /* Login the client into discord and let him listen to events */
 app.loginDiscordClient()
+  .then(() => {
 
-/* Automatic refresh of several informations from server */
-app.runRefreshInformationsCycle()
+    /* Automatic refresh of several informations from server */
+    app.runRefreshInformationsCycle()
+
+  })
+

@@ -35,7 +35,7 @@ export default class Config {
 
   public mainGuildID: string = '829303272061009959'
 
-  get mainGuild(): Guild {
-    return global.client.guilds.cache.find(guild => guild.id === this.mainGuildID)
+  async mainGuild(): Promise<Guild> {
+    return await global.client.guilds.fetch(this.mainGuildID)
   }
 }

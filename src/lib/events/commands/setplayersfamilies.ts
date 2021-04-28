@@ -20,7 +20,8 @@ export default new Command({
         .then(async ([familyPlayersList]) => {
           for (const playerID of familyPlayersList) {
             /* Retrieve the member object */
-            const member = await global.assets.config.mainGuild.members.fetch(playerID)
+            const mainGuild = await global.assets.config.mainGuild()
+            const member = await mainGuild.members.fetch(playerID)
 
             /* If the member does not exist skip this loop */
             if (!member) continue
@@ -40,7 +41,7 @@ export default new Command({
             member.roles.add(global.assets.config.familiesID[family])
 
             /* Send the welcoming message to the right channel */
-            const familyChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID[family]) as TextChannel
+            const familyChannel = mainGuild.channels.cache.get(global.assets.config.textChannelID[family]) as TextChannel
             familyChannel.send(`Bienvenue à ${member.user} qui vient de rejoindre la famille !`)
           }
 
@@ -48,7 +49,6 @@ export default new Command({
           if (Object.values(playersFamiliesUpdates).length)
             message.reply(Object.entries(playersFamiliesUpdates).map(entry => entry.join(' => ')).join('\n'))
         })
-        .catch(() => console.log('t'))
     }
   }
 })
