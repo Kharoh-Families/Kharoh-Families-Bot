@@ -153,4 +153,49 @@ export default class App {
       global.client.on(eventName, event.run.bind(event))
     }
   }
+
+  public runRefreshInformationsCycle() {
+    setInterval(this.refreshInformations, 120000)
+  }
+
+  private refreshInformations() {
+    const params = { logIDs: false }
+    const logPingsChannel = global.assets.config.mainGuild.channels.cache.get(global.assets.config.textChannelID['logsPings']) as Discord.TextChannel
+
+    const pingRequest = new global.assets.ServerRequest({ name: 'pingServer', params: null, maxDelay: 10000 })
+    const pingResponse = pingRequest.sendRequest()
+    const currentTimestamp = Date.now()
+
+    let ping = null
+
+    pingResponse
+      .then(() => {
+        ping = (Date.now() - currentTimestamp) + 'ms'
+        global.client.user.setStatus('online')
+      })
+      .catch(() => {
+        ping = 'ERROR'
+        global.client.user.setStatus('idle')
+      })
+
+    const playersRequest = new global.assets.ServerRequest({ name: 'getConnectedPlayers', params, maxDelay: 10000 })
+    const playersResponse = playersRequest.sendRequest()
+
+    let players = null
+
+    playersResponse
+      .then((responseData: any) => {
+        const [{ playersList }] = responseData
+        players = playersList.length
+      })
+      .catch(() => {
+        players = 'ERROR'
+      })
+
+      logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + players + ' joueurs.')
+
+      if (ping != 'ERROR' && players != 'ERROR') global.client.user.setActivity('les ' + players + ' joueurs connectés !', { type: 'WATCHING' });
+      else if (players == 'ERROR') global.client.user.setActivity('l\'impossibilité d\'actualiser les joueurs...', { type: 'WATCHING' });
+  }
+
 }
