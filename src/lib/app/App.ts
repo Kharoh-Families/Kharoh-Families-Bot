@@ -155,7 +155,10 @@ export default class App {
   }
 
   public runRefreshInformationsCycle() {
+    console.log('\x1b[36m' + 'discord: running presence update and server ping cycle')
+    this.refreshInformations()
     setInterval(this.refreshInformations, 120000)
+    console.log('\x1b[36m' + 'discord: presence update and server ping cycle running')
   }
 
   private refreshInformations() {
@@ -169,33 +172,34 @@ export default class App {
     let ping = null
 
     pingResponse
+
       .then(() => {
         ping = (Date.now() - currentTimestamp) + 'ms'
         global.client.user.setStatus('online')
+
+        const playersRequest = new global.assets.ServerRequest({ name: 'getConnectedPlayers', params, maxDelay: 10000 })
+        const playersResponse = playersRequest.sendRequest()
+    
+        playersResponse
+
+          .then((responseData: any) => {
+            const [{ playersList }] = responseData
+            logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + playersList.lenght + ' joueurs.')
+            global.client.user.setActivity('les ' + playersList.lenght + ' joueurs connectés !', { type: 'WATCHING' });
+          })
+
+          .catch(() => {
+            logPingsChannel.send('[ERROR] Erreur lors de la tentative de récupération du nombre de joueurs.')
+            global.client.user.setActivity('l\'impossibilité d\'actualiser les joueurs...', { type: 'WATCHING' });
+          })
+
       })
+
       .catch(() => {
-        ping = 'ERROR'
+        logPingsChannel.send('[ERROR] Erreur lors de la tentative de ping du serveur.')
         global.client.user.setStatus('idle')
       })
 
-    const playersRequest = new global.assets.ServerRequest({ name: 'getConnectedPlayers', params, maxDelay: 10000 })
-    const playersResponse = playersRequest.sendRequest()
-
-    let players = null
-
-    playersResponse
-      .then((responseData: any) => {
-        const [{ playersList }] = responseData
-        players = playersList.length
-      })
-      .catch(() => {
-        players = 'ERROR'
-      })
-
-      logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + players + ' joueurs.')
-
-      if (ping != 'ERROR' && players != 'ERROR') global.client.user.setActivity('les ' + players + ' joueurs connectés !', { type: 'WATCHING' });
-      else if (players == 'ERROR') global.client.user.setActivity('l\'impossibilité d\'actualiser les joueurs...', { type: 'WATCHING' });
   }
 
 }
