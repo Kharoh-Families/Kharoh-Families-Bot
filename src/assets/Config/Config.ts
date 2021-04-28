@@ -25,6 +25,7 @@ export default class Config {
 
   public textChannelID: { [key: string]: string } = {
     adminShell: '832629971708674069',
+    logsPings: '836928865170358352',
 
     pink: '829309103201189919',
     blue: '829309946411614218',
