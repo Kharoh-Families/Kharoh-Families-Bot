@@ -31,5 +31,5 @@ app.listenToDiscordEvents()
 /* Login the client into discord and let him listen to events */
 app.loginDiscordClient()
 
-/* Automatic refresh of severals informations from server */
+/* Automatic refresh of several informations from server */
 app.runRefreshInformationsCycle()
