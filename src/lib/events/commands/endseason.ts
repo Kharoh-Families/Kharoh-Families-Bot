@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Terminer une saison',
+  name: 'endseason',
+  title: 'Terminer une saison',
   desc: "Permet d'arrêter une saison du jeu prématurément.",
   aliases: [],
   permissions: ['administrator'],

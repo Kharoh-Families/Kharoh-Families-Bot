@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Ping serveur',
+  name: 'pingserver',
+  title: 'Ping serveur',
   desc: "Permet de vérifier la latence du serveur du jeu.",
   aliases: ['ps'],
   permissions: ['administrator', 'moderator'],

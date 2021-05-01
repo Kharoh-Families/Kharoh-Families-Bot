@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Description',
+  name: 'desc',
+  title: 'Description',
   desc: "Retourne la description de la commande passée en argument.",
   aliases: ['d', 'description'],
   permissions: ['everyone'],

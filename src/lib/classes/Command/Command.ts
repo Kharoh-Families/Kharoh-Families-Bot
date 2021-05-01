@@ -2,14 +2,16 @@ import { GuildMember, Message } from "discord.js"
 
 class Command {
   public name: string
+  public title: string
   public desc: string
   public template: string
   public aliases: string[]
   public permissions: string[]
   private exec: (...args: any[]) => void
 
-  constructor({ name, desc, template, aliases, permissions, exec }: CommandParams) {
+  constructor({ name, title, desc, template, aliases, permissions, exec }: CommandParams) {
     this.name = name
+    this.title = title
     this.desc = desc
     this.template = template
     this.aliases = aliases
@@ -74,6 +76,7 @@ class Command {
 
 export interface CommandParams {
   name: string
+  title: string
   desc: string
   template: string
   aliases: string[]

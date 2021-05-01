@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Obtenir l\'information d\'un joueur',
+  name: 'getplayerinfo',
+  title: 'Obtenir l\'information d\'un joueur',
   desc: "Permet d'obtenir une information spécifique sur un joueur dans les bases de données du serveur.",
   aliases: ['gpi'],
   permissions: ['administrator', 'moderator'],
@@ -23,11 +24,11 @@ export default new Command({
         const stringData = JSON.stringify(responseData, null, 2)
         message.reply("Les informations demandées sont les suivantes :")
         let iterator = 0
-        const iteratorMax = stringData.length/1000
+        const iteratorMax = stringData.length / 1000
         let lastLineJump = 0
         while (iterator < iteratorMax) {
-          const gap = (iterator+1)*1000
-          const lineJump = stringData.substr(gap, gap+60).indexOf("\n") + gap
+          const gap = (iterator + 1) * 1000
+          const lineJump = stringData.substr(gap, gap + 60).indexOf("\n") + gap
           message.reply("```json\n" + stringData.substr(lastLineJump, lineJump) + "\n```")
           lastLineJump = lineJump
           iterator++

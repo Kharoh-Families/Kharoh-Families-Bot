@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Template',
+  name: 'template',
+  title: 'Template',
   desc: "Retourne le template de la commande passée en argument.",
   aliases: ['t'],
   permissions: ['everyone'],

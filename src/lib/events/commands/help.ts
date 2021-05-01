@@ -2,7 +2,8 @@ import { Message, MessageEmbed } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Help',
+  name: 'help',
+  title: 'Help',
   desc: 'Permet de connaître la liste des commandes OU les informations liées à une commande passée en argument.',
   aliases: ['h', 'aide'],
   permissions: ['everyone'],

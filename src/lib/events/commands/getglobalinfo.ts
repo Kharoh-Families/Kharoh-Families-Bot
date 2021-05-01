@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Obtenir une information globale',
+  name: 'getglobalinfo',
+  title: 'Obtenir une information globale',
   desc: "Permet d'obtenir une information de l'objet global du serveur.",
   aliases: ['ggi'],
   permissions: ['administrator', 'moderator'],

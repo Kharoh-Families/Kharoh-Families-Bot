@@ -2,7 +2,8 @@ import { Message, TextChannel } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Faire rentrer les joueurs dans leur famille',
+  name: 'setplayersfamilies',
+  title: 'Faire rentrer les joueurs dans leur famille',
   desc: "Permet de récupérer les informations sur les listes de joueurs dans les familles du côté serveur et de faire rentrer les joueur sur le serveur discord dans leur famille.",
   aliases: ['spf'],
   permissions: ['administrator', 'moderator'],

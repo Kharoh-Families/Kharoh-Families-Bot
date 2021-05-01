@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Changer l\'information d\'un joueur',
+  name: 'setplayerinfo',
+  title: 'Changer l\'information d\'un joueur',
   desc: "Permet d'accéder aux méthodes des classes d'un joueur et de le modifier.",
   aliases: ['spi'],
   permissions: ['administrator'],

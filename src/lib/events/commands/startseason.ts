@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Lancer une saison',
+  name: 'startseason',
+  title: 'Lancer une saison',
   desc: "Permet de lancer une saison de jeu.",
   aliases: [],
   permissions: ['administrator'],

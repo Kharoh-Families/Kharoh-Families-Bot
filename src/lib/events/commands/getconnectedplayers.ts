@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Nombre de joueurs connectés',
+  name: 'getconnectedplayers',
+  title: 'Nombre de joueurs connectés',
   desc: "Permet de connaître le nombre de joueurs connectés sur le jeu.",
   aliases: ['players', 'connected', 'gcp'],
   permissions: ['everyone'],

@@ -2,7 +2,8 @@ import { Message } from "discord.js";
 import Command from "../../classes/Command/Command";
 
 export default new Command({
-  name: 'Connaître le nombre de points des familles',
+  name: 'points',
+  title: 'Connaître le nombre de points des familles',
   desc: "Permet de connaître le nombre de points de chaque famille sur le jeu des Kharoh Families.",
   aliases: [],
   permissions: ['everyone'],
