@@ -1,5 +1,5 @@
-import { Guild, Message, MessageEmbed } from "discord.js"
-import Command from "../../classes/Command/Command"
+import { Message, MessageEmbed } from "discord.js";
+import Command from "../../classes/Command/Command";
 
 export default new Command({
   name: 'help',
@@ -9,73 +9,69 @@ export default new Command({
   permissions: ['everyone'],
   template: "!help [COMMAND_NAME]",
 
-  exec: (message: Message, ...args: any[]) => {
-
-    const reply = new MessageEmbed()
-    .setColor(global.assets.Utils.getRandomFamilyColor())
-
-    const pageAsked = Math.floor(args[0])
-    
+  exec: async (message: Message, ...args: any[]) => {
     const commandName = args[0]?.toLowerCase()
-    const commandsPerm = global.assets.config.permissionsID
-    const userRoles = message.guild.members.cache.get(message.author.id).roles.cache
 
-    function commandList() {
-      const commandsLength = Object.keys(global.commands).length
+    /* Create the reply message embed */
+    const reply = new MessageEmbed()
+      .setColor(global.assets.Utils.getRandomFamilyColor())
 
-      var helpTab = []
-      for (let n = 1 ; n <= commandsLength ; n++) {
-
-        const cmd = Object.values(global.commands)
-        const cmdPermRole = cmd[n-1].permissions
-
-        if (cmdPermRole.length === 1) {
-          if (userRoles.find(role => role.id === commandsPerm[cmdPermRole.toString()])) {
-              helpTab.push(cmd[n-1])
-          }
-        } else {
-          for (let m = 1 ; m <= cmdPermRole.length ; m++) {
-            if (userRoles.find(role => role.id === commandsPerm[cmdPermRole[m-1].toString()])) {
-              helpTab.push(cmd[n-1])
-            }
-          }
-        }
-      }
-
-      const cmdPerPage = 4
-      const lastPage = Math.ceil(helpTab.length/cmdPerPage)
-
-      if (!pageAsked || isNaN(pageAsked) || pageAsked <= 1 || pageAsked > lastPage) var page = 1
-      else page = pageAsked
-
-      const cmdDisplayed = helpTab.slice((page-1)*cmdPerPage, (page-1)*cmdPerPage+4)
-      cmdDisplayed.forEach((cmd) => reply.addField("• "+ cmd.name, cmd.desc))
-
-      
-      reply.setTitle("Voici la liste des commandes:")
-      reply.setFooter(global.assets.Utils.getDoneRandomMessage()  + " | page " + page + "/" + lastPage, global.client.user.avatarURL())
-    }
-
-
+    /* Retrieve the command object using the first argument */
     const command = global.commands[commandName] || global.assets.Command.findCommandFromAliases(commandName)
+
+    /* Some useful variables */
+    const { permissionsID } = global.assets.config
+
+    /* If there is no command, try to display the command list */
     if (!command) {
+      const helpPage: Command[] = []
 
-      commandList()
+      /* Push all commands that the user has permissions to use */
+      for (const command of Object.values(global.commands))
+        if (command.userHasPerms(message.member)) helpPage.push(command)
 
-    } else if (userRoles.find(role => role.id == commandsPerm[Object.values(global.commands[commandName])[4]])) {
+      /* Set commands per page and work out the last page number */
+      const commandsPerPage = 4
+      const lastPageNumber = Math.ceil(helpPage.length / commandsPerPage)
 
-      const rolePerm = message.guild.roles.cache.get(commandsPerm[global.commands[commandName].permissions.toString()]).toString()
+      /* Retrieve and normalize page asked */
+      let pageAsked = Math.floor(args[0])
+      if (!pageAsked || isNaN(pageAsked) || pageAsked < 1 || pageAsked > lastPageNumber) pageAsked = 1
 
-      reply.setTitle(command.name)
-      reply.setDescription(command.desc + '\n\n**'+ command.template + '**\n\n'+ 'aliases: ' + command.aliases.join(' / ') + '\n\npermissions: ' + `${rolePerm}` + '\n')
-      reply.setFooter(global.assets.Utils.getDoneRandomMessage(), global.client.user.avatarURL())
+      /* Create the array comporting all the displayed command on this page */
+      const firstCommandDisplayedIndex = (pageAsked - 1) * commandsPerPage
+      const commandsDisplayed = helpPage.slice(firstCommandDisplayedIndex, firstCommandDisplayedIndex + 4)
 
-    } else {
+      /* Fulfill the message embed reply with commands */
+      commandsDisplayed.forEach((command) => reply.addField("• " + command.name + " | " + command.title, command.desc))
 
-      commandList()
-
+      /* Set the footer and the title of the reply */
+      reply.setTitle("Voici la liste des commandes :")
+      reply.setFooter("page " + pageAsked + " / " + lastPageNumber + " | !help [PAGE] pour afficher les autres pages | " + global.assets.Utils.getDoneRandomMessage(), global.client.user.avatarURL())
     }
 
+    else {
+      /* Retrieve all roles from the command permissions (need to use promises due to fetch method) */
+      const permissionsRoles = await Promise.all(
+        command.permissions.map(async (permissionName) => {
+          const permissionID = permissionsID[permissionName]
+          return await message.guild.roles.fetch(permissionID)
+        })
+      )
+
+      /* Fulfill the embed reply with all the information */
+      reply
+        .setTitle(command.name + " | " + command.title)
+        .setDescription(
+          command.desc + '\n\n'
+          + "**template**: " + command.template + '\n'
+          + "**aliases**: " + command.aliases.join(' / ') + '\n'
+          + "**permissions**: " + permissionsRoles.join(' | ')
+        )
+        .setFooter(global.assets.Utils.getDoneRandomMessage(), global.client.user.avatarURL())
+    }
+
+    /* Send the reply message */
     message.reply(reply)
   }
 })
