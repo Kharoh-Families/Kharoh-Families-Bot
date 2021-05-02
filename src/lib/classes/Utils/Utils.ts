@@ -3,7 +3,7 @@ class Utils {
    * Generate a random color of a family as an output
    */
   static getRandomFamilyColor(): string {
-    const familyColors = ['#f3abfd', '#8bc3f7', '#f8ed93', '#f8ed93']
+    const familyColors = ['#f3abfd', '#8bc3f7', '#f8ed93', '#abfdb9']
     return familyColors[Math.floor(Math.random() * familyColors.length)]
   }
 

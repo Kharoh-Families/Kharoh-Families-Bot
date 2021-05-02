@@ -55,7 +55,7 @@ class Command {
    * Check if a user has the permission to use the command
    * @param user - The member we want to know if he has permissions
    */
-  userHasPerms(user: GuildMember): boolean {
+  public userHasPerms(user: GuildMember): boolean {
     for (const permission of this.permissions) {
       const permissionID = global.assets.config.permissionsID[permission]
       if (user.roles.cache.find(role => role.id === permissionID)) return true
