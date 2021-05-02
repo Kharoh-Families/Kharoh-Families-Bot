@@ -153,10 +153,10 @@ export default class App {
   }
 
   public runRefreshInformationsCycle() {
-    console.log('\x1b[36m' + 'discord: running presence update and server ping cycle')
+    console.log('\x1b[36m' + 'discord: running presence update and server ping cycle' + '\x1b[0m')
     this.refreshInformations()
     setInterval(this.refreshInformations, 120000)
-    console.log('\x1b[36m' + 'discord: presence update and server ping cycle running')
+    console.log('\x1b[36m' + 'discord: presence update and server ping cycle running' + '\x1b[0m')
   }
 
   private async refreshInformations() {
