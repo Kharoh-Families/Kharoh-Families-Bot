@@ -5,7 +5,6 @@ export default async function guildMemberAdd(member: GuildMember) {
   const request = new global.assets.ServerRequest({ name: 'getPlayerInfo', params: { playerID: member.id, path: 'family.name' }, maxDelay: 10000 })
 
   const familyName = await request.sendRequest() as string
-  console.log(familyName)
   if (!familyName) return
 
   /* Add the current family role */
