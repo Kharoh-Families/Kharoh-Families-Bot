@@ -12,15 +12,13 @@ export default async function playerChoseFamily(params: PlayerChoseFamilyParams)
   if (!member) return
 
   /* Remove all the other families roles */
-  const rolesToRemove = Object.values(global.assets.config.familiesID)
-  rolesToRemove.splice(Object.keys(global.assets.config.familiesID).indexOf(params.family), 1)
-  member.roles.remove(rolesToRemove)
+  await member.roles.remove(Object.values(global.assets.config.familiesID))
 
   /* Add the current family role */
-  member.roles.add(global.assets.config.familiesID[params.family])
+  await member.roles.add(global.assets.config.familiesID[params.family])
 
   /* Add the player role */
-  member.roles.add(global.assets.config.permissionsID['player'])
+  await member.roles.add(global.assets.config.permissionsID['player'])
 
   /* Send the welcoming message to the right channel */
   const familyChannel = mainGuild.channels.cache.get(global.assets.config.textChannelID[params.family]) as TextChannel
