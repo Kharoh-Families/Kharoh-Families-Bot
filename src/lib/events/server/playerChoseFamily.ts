@@ -18,8 +18,7 @@ export default async function playerChoseFamily(params: PlayerChoseFamilyParams)
   await member.roles.add(global.assets.config.familiesID[params.family])
 
   /* Add the player role */
-  const playerRole = await mainGuild.roles.fetch(global.assets.config.permissionsID['player'])
-  await member.roles.add(playerRole)
+  await member.roles.add(global.assets.config.permissionsID['player'])
 
   /* Send the welcoming message to the right channel */
   const familyChannel = mainGuild.channels.cache.get(global.assets.config.textChannelID[params.family]) as TextChannel
