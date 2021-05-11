@@ -8,7 +8,8 @@ export default async function guildMemberAdd(member: GuildMember) {
   if (!familyName) return
 
   /* Add the current family role */
-  await member.roles.add(global.assets.config.familiesID[familyName])
+  const familyRole = await member.guild.roles.fetch(global.assets.config.familiesID[familyName])
+  await member.roles.add(familyRole)
 
   /* Send the welcoming message to the right channel */
   const mainGuild = await global.assets.config.mainGuild()
