@@ -15,8 +15,7 @@ export default async function playerChoseFamily(params: PlayerChoseFamilyParams)
   await member.roles.remove(Object.values(global.assets.config.familiesID))
 
   /* Add the current family role */
-  const familyRole = await mainGuild.roles.fetch(global.assets.config.familiesID[params.family])
-  await member.roles.add(familyRole)
+  await member.roles.add(global.assets.config.familiesID[params.family])
 
   /* Add the player role */
   const playerRole = await mainGuild.roles.fetch(global.assets.config.permissionsID['player'])
