@@ -17,20 +17,20 @@ export default class Config {
    * The role IDs of the families roles in the discord server
    */
   public familiesID: { [key: string]: string } = {
-    pink: '848661385714204743',
-    blue: '848661405535305749',
-    yellow: '848661431976853505',
-    green: '848661454932279366',
+    pink: '829308762774962218',
+    blue: '829309368477417492',
+    yellow: '829309405396467722',
+    green: '829309423440625684',
   }
 
   public textChannelID: { [key: string]: string } = {
     adminShell: '832629971708674069',
     logsPings: '836928865170358352',
 
-    pink: '843585487611756584',
-    blue: '843585525025734716',
-    yellow: '843585574845022229',
-    green: '843585600191332423',
+    pink: '848661385714204743',
+    blue: '848661405535305749',
+    yellow: '848661431976853505',
+    green: '848661454932279366',
   }
 
   public mainGuildID: string = '829303272061009959'
