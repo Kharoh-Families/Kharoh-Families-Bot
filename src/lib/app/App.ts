@@ -173,7 +173,6 @@ export default class App {
 
       .then(() => {
         ping = (Date.now() - currentTimestamp)
-        global.client.user.setStatus('online')
 
         const playersRequest = new global.assets.ServerRequest({ name: 'getConnectedPlayers', params, maxDelay: 10000 })
         const playersResponse = playersRequest.sendRequest()
@@ -182,19 +181,22 @@ export default class App {
 
           .then((responseData: any) => {
             const [{ playersList }] = responseData
-            logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | ' + playersList.length + ' joueurs.')
+            logPingsChannel.send('[INFO] Un ping serveur a été effectué → ' + ping + 'ms | **' + playersList.length + '** joueurs :\n' + JSON.stringify(playersList))
             global.client.user.setActivity('les ' + playersList.length + ' joueurs connectés !', { type: 'WATCHING' });
+            global.client.user.setStatus('online')
           })
 
           .catch(() => {
-            logPingsChannel.send('[ERROR] Erreur lors de la tentative de récupération du nombre de joueurs.')
+            logPingsChannel.send('**[ERROR] Erreur lors de la tentative de récupération du nombre de joueurs.**')
             global.client.user.setActivity('l\'impossibilité d\'actualiser les joueurs...', { type: 'WATCHING' });
+            global.client.user.setStatus('idle')
           })
 
       })
 
       .catch(() => {
-        logPingsChannel.send('[ERROR] Erreur lors de la tentative de ping du serveur.')
+        logPingsChannel.send('**[ERROR] Erreur lors de la tentative de ping du serveur.**')
+        global.client.user.setActivity('l\'impossibilité de contacter le serveur...', { type: 'WATCHING' });
         global.client.user.setStatus('idle')
       })
 
