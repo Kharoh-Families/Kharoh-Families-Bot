@@ -30,7 +30,7 @@ export default class Config {
     pink: '853741332677787650',
     blue: '853741547631542272',
     yellow: '853741600885440512',
-    green: '848661454932279366',
+    green: '853741658809565185',
   }
 
   public mainGuildID: string = '829303272061009959'
