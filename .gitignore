@@ -1,3 +1,11 @@
-node_modules
-package-lock.json
+# NodeJS modules
+node_modules/
+
+# .js files
+dist/
+
+# Environment file
 .env
+
+# IntelliJ files
+.idea/

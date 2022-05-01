@@ -1,23 +1,25 @@
-import { Message } from "discord.js";
-import Command from "../../classes/Command/Command";
+import Command from "../../classes/Command";
+import {Message} from "discord.js";
+import ServerRequest from "../../classes/ServerRequest";
 
 export default new Command({
-  name: 'pingserver',
-  title: 'Ping serveur',
-  desc: "Permet de vérifier la latence du serveur du jeu.",
-  aliases: ['ps'],
-  permissions: ['administrator', 'moderator'],
-  template: "!pingServer /",
+    name: 'pingserver',
+    title: 'Ping Serveur',
+    desc: "Permet de vérifier la latence du serveur de jeu.",
+    aliases: ['ps'],
+    permissions: ['administrator', 'moderator'],
+    template: "pingserver",
 
-  exec: (message: Message, ...args: any[]) => {
-    const request = new global.assets.ServerRequest({ name: 'pingServer', params: null, maxDelay: 10000 })
-
-    const currentTimestamp = Date.now()
-
-    const response = request.sendRequest()
-
-    response
-      .then(() => message.reply(`Voilà ! (${Date.now() - currentTimestamp}ms)`))
-      .catch(() => message.reply('Quelque chose de mal est arrivé au serveur... (pas de réponse).'))
-  }
+    exec: (message: Message, ...args: any[]) => {
+        /* Create a ping request */
+        const request = new ServerRequest('ping', {}, 10000)
+        /* Get the current timestamp in millis */
+        const timestamp = Date.now()
+        /* Send the request */
+        request.sendRequest()
+            /* The game server successfully answered */
+            .then(() => message.reply(`⚡ Le serveur a répondu en **${Date.now() - timestamp}ms** !`))
+            /* The game server didn't answer */
+            .catch(() => message.reply("🤐 Oops... Le serveur n'a pas répondu dans le temps imparti. Il est peut-être muet ?"))
+    }
 })

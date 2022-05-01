@@ -1,23 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "target": "es5",
     "sourceMap": true,
-    "target": "ESNext",
     "resolveJsonModule": true,
     "removeComments": true,
-    "esModuleInterop": true, // need to be deleted later
-    // "lib": [
-    //   "ES7"
-    // ]
+    "esModuleInterop": true,
+    "outDir": "dist"
   },
   "ts-node": {
     "files": true
   },
   "include": [
-    "src/global.d.ts",
-    "src/index.ts",
-    "src/**/*.ts",
-    "src/lib/app/App.ts"
+    "src"
   ],
   "exclude": [
     "node_modules"
