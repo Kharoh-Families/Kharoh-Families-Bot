@@ -14,14 +14,14 @@ export default class ServerRequest {
     }
 
     public sendRequest() {
-        const responseToken = ServerRequest.generateRandomResponseToken()
-        global.server.emit(this.name, responseToken, this.params)
+        const token = ServerRequest.generateRandomResponseToken()
+        global.server.emit(this.name, token, this.params)
 
         return new Promise((resolve, reject) => {
             /* If the server sends the response */
-            global.server.on('response' + responseToken, (...responseData: any) => {
-                resolve(responseData)
-                global.server.removeListener('response' + responseToken)
+            global.server.on('response' + token, (data: any) => {
+                resolve(data)
+                global.server.removeListener('response' + token)
             })
 
             /* If the server does not send the response */

@@ -27,11 +27,14 @@ export default async function refreshInformation() {
             playersRequest.sendRequest()
 
                 /* The server successfully answered, we get the list */
-                .then(([{playersList}]) => {
+                .then((data: any) => {
+                    /* Retrieve the players name from the data */
+                    const players: string[] = []
+                    data.players.forEach(player => {players.push(player.name)})
                     /* Send a message to the ping channel with the connected players */
-                    pingsChannel.send('Un ping serveur a été effectué en **' + ping + 'ms**. **' + playersList.length + '** joueurs sont connectés.\n' + playersList.join(', '))
+                    pingsChannel.send('Un ping serveur a été effectué en **' + ping + 'ms**. **' + players.length + '** joueurs sont connectés.\n' + players.join(', '))
                     /* Set the activity to show a message like 'Watching {} players !' */
-                    global.client.user.setActivity(`${playersList.length} joueurs !`, {type: 'WATCHING'});
+                    global.client.user.setActivity(`${players.length} joueurs !`, {type: 'WATCHING'});
                     /* Set the status to online */
                     global.client.user.setStatus('online')
                 })
@@ -53,9 +56,9 @@ export default async function refreshInformation() {
             familiesRequest.sendRequest()
 
                 /* The server successfully answered, we get the info */
-                .then(async (data) => {
+                .then(async (data: any) => {
                     /* Browse data (data[0] because the data list is in another list, and I don't know why) */
-                    for (const family of data[0]) {
+                    for (const family of data) {
                         /* Get the family stats channel */
                         const statsChannel = await global.client.channels.fetch(CHANNELS["stats_" + family['name']]) as TextChannel
                         /* Create the player list to show it in the embed */
@@ -96,7 +99,8 @@ export default async function refreshInformation() {
                         })
                     }
                 })
-                .catch(() => {
+                .catch((reason) => {
+                    console.log(reason)
                 })
         })
 

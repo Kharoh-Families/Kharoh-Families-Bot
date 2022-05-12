@@ -16,7 +16,11 @@ export default new Command({
         /* Send the request to the game server */
         request.sendRequest()
             /* The server successfully answered */
-            .then(([{playersList}]: any) => {
+            .then((data: any) => {
+                const playersList = []
+                data.players.forEach(player => {
+                    playersList.push(player.name)
+                })
                 /* The player list isn't empty */
                 if (playersList.length > 0) {
                     /* Send the list of the connected players */
