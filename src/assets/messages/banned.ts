@@ -1,0 +1,3 @@
+export default function (params) {
+    return `🛑 Bonjour,\nVous venez de **tenter de vous connecter** à **Kharoh Families**, mais malheureusement vous êtes banni du jeu pour la raison suivante :\n\`\`\`\n${params.reason}\`\`\`\nCette sanction est effective jusqu'au <t:${params.expiration}:D> à <t:${params.expiration}:t>.\nNous espérons que vous reviendrez en pleine forme et plus respectueux que jamais des règles.\n\nEn espérant vous recroiser sur **Kharoh Families**,\nL'équipe du jeu.`
+}

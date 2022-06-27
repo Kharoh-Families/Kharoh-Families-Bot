@@ -29,7 +29,8 @@
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "mysql2": "^2.3.3",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "mysqldump": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",

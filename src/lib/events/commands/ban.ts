@@ -31,16 +31,16 @@ export default new Command({
         /* Send the request */
         request.sendRequest()
             /* If the server responded */
-            .then(([{user, expiration, reason}]) => {
+            .then(([user, expiration, reason]) => {
                 /* Convert the expiration timestamp (millis) into a normal timestamp for discord */
                 expiration = expiration.toString().substring(0, 10)
                 /* Send a confirmation message */
                 message.reply(`🔨 L'utilisateur <@${user}> (ID : ${user}) a bien été banni pour la raison \`${reason || '...'}\` jusqu'au jusqu'au <t:${expiration}:D> à <t:${expiration}:t>, c'est-à-dire <t:${expiration}:R>.`)
             })
             /* In case of error */
-            .catch(() => {
+            .catch((err) => {
                 /* Send a message */
-                message.reply("🤣 Le serveur a l'air de s'opposer au bannissement, parce qu'il n'a pas répondu... Il est sûrement corrompu !")
+                message.reply("🤣 Le serveur a l'air de s'opposer au bannissement, parce qu'il n'a pas répondu... Il est sûrement corrompu !" + err)
             })
     }
 })
